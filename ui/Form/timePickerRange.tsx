@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { isEmpty } from "ramda";
-import { TimePickerRange, TTimePickerRangeProps } from "@components/ui/TimePickerRange";
+import { TimePickerRange, TTimePickerRangeProps } from "../TimePickerRange";
 import { TFromItemProps } from "./form.type";
 import { clsx } from "clsx";
 

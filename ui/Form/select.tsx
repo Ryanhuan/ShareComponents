@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { isEmpty } from "ramda";
-import { Select, TSelectProps } from "@components/ui/Select";
+import { Select, TSelectProps } from "../Select";
 import { TFromItemProps } from "./form.type";
 import { clsx } from "clsx";
 

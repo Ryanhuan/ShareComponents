@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { isEmpty } from "ramda";
-import { Input, TInputProps } from "@components/ui/Input";
+import { Input, TInputProps } from "../Input";
 import { TFromItemProps } from "./form.type";
 import { clsx } from "clsx";
 

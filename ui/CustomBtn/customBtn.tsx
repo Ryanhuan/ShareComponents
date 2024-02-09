@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 import { clsx } from "clsx";
 import styled, { css } from "styled-components";
 import { T_ItemProps } from "./customBtn.type";
