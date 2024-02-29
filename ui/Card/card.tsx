@@ -14,7 +14,11 @@ const CustomCardStyled = React.forwardRef<any, props>((props, ref) => {
   const { children, ...otherProps } = props;
 
   return (
-    <CardStyled className={clsx("frostedGlass")} ref={ref as any} {...otherProps}>
+    <CardStyled
+      className={clsx("frostedGlass")}
+      ref={ref as any}
+      {...otherProps}
+    >
       <CardBody>{children}</CardBody>
     </CardStyled>
   );

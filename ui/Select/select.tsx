@@ -8,7 +8,7 @@ const SelectStyled = styled(Select)`
 `;
 
 const CustomSelectStyled = React.forwardRef<any, TSelectProps>((props, ref) => {
-  const { label = "Select", Options, placeholder = "-Select-", labelPlacement = "outside", className, isRequired, ...otherProps } = props;
+  const { label = "Select", Options, placeholder = "-Select-", labelPlacement = "inside", className, isRequired, ...otherProps } = props;
 
   return (
     <SelectStyled

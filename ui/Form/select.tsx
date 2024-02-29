@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { isEmpty } from "ramda";
+import { isEmpty, isNil } from "ramda";
 import { Select, TSelectProps } from "../Select";
 import { TFromItemProps } from "./form.type";
 import { clsx } from "clsx";
+import { rulesMsg } from "@/lib/utils/form";
 
 type props = {} & TFromItemProps & TSelectProps;
 
@@ -23,8 +24,8 @@ const FormSelect = React.forwardRef<any, props>((props, ref) => {
   const { name, type, register, errors, isRequired, validationSchema, className, ...otherProps } = props;
 
   const _validationSchema = {
-    required: isRequired,
     ...validationSchema,
+    required: isRequired,
   };
 
   return (
@@ -33,8 +34,8 @@ const FormSelect = React.forwardRef<any, props>((props, ref) => {
       type={type}
       className={clsx(isRequired && "isRequired", className)}
       {...register(name, _validationSchema)}
-      isInvalid={!isEmpty(errors)}
-      errorMessage={errors && errors[name]?.type === "required" && (errors[name]?.message || "欄位為必填")}
+      isInvalid={isEmpty(errors[name]) || !isNil(errors[name])}
+      errorMessage={(errors && errors[name]?.type === "required" && (errors[name]?.message || rulesMsg.isRequired)) || ''}
       {...otherProps}
     />
   );

@@ -20,6 +20,7 @@ const ErrorMessageStyled = styled.span`
 
 const CustomTimePickerRangeStyled = React.forwardRef<any, TTimePickerRangeProps>((props, _) => {
   const { format = "HH:mm:ss", label = "", className, errorMessage, isRequired, ...otherProps } = props;
+  // console.log('otherProps',otherProps);
 
   return (
     <TimePickerRangeStyled className={clsx(isRequired && "isRequired", "TimePickerRangeStyled", className)}>
@@ -34,7 +35,7 @@ const CustomTimePickerRangeStyled = React.forwardRef<any, TTimePickerRangeProps>
         className={clsx(
           "pickerBack relative inline-flex tap-highlight-transparent flex-row items-center shadow-sm px-3 gap-3 bg-default-100 data-[hover=true]:bg-default-200 group-data-[focus=true]:bg-default-100 h-unit-10 min-h-unit-10 rounded-medium transition-background motion-reduce:transition-none !duration-150 outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background is-filled"
         )}
-        style={{ cursor: "text" }}
+        style={{ cursor: "text", display: "flex", flexDirection: "column" }}
       >
         <div className="inline-flex w-full items-center h-full ">
           <TimePicker.RangePicker

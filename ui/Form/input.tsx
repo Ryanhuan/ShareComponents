@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { isEmpty } from "ramda";
+import { isEmpty, isNil } from "ramda";
 import { Input, TInputProps } from "../Input";
 import { TFromItemProps } from "./form.type";
 import { clsx } from "clsx";
+import { rulesMsg } from "@/lib/utils/form";
 
 type props = {} & TFromItemProps & TInputProps;
 
@@ -13,7 +14,7 @@ const FormInputStyled = styled.div`
   > .isRequired {
     label {
       white-space: nowrap;
-      
+
       &::before {
         content: "＊";
         color: red;
@@ -24,11 +25,11 @@ const FormInputStyled = styled.div`
 `;
 
 const FormInput = React.forwardRef<any, props>((props, ref) => {
-  const { name, type, register, errors, isRequired, validationSchema, className, ...otherProps } = props;
+  const { name, label, type, register, errors, isRequired, validationSchema, className, ...otherProps } = props;
 
   const _validationSchema = {
-    required: isRequired,
     ...validationSchema,
+    required: isRequired,
   };
 
   return (
@@ -36,10 +37,12 @@ const FormInput = React.forwardRef<any, props>((props, ref) => {
       <Input
         ref={ref as any}
         type={type}
+        name={name}
+        label={label}
         className={clsx(isRequired && "isRequired", className)}
         {...register(name, _validationSchema)}
-        isInvalid={!isEmpty(errors)}
-        errorMessage={errors && errors[name]?.type === "required" && (errors[name]?.message || "欄位為必填")}
+        isInvalid={isEmpty(errors[name]) || !isNil(errors[name])}
+        errorMessage={errors && errors[name]?.type === "required" && (errors[name]?.message || rulesMsg.isRequired)}
         {...otherProps}
       />
     </FormInputStyled>

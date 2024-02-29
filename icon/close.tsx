@@ -2,7 +2,7 @@ import React from "react";
 import { IconPropsType } from "./icon.type";
 import clsx from "clsx";
 
-export const IconArrowRight = (props: IconPropsType) => {
+export const IconClose = (props: IconPropsType) => {
   const { fill = "currentColor", filled, size, height, width, label, className, ...otherProps } = props;
 
   return (
@@ -16,11 +16,8 @@ export const IconArrowRight = (props: IconPropsType) => {
       {...otherProps}
     >
       <path
-        d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"
-        stroke={fill}
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="m12.74 10.997 7.963-7.956a1.226 1.226 0 0 0 0-1.738 1.226 1.226 0 0 0-1.737 0L11 9.256 3.034 1.3a1.226 1.226 0 0 0-1.737 0 1.226 1.226 0 0 0 0 1.738l7.962 7.956-7.962 7.96a1.226 1.226 0 0 0 .869 2.096c.315 0 .628-.119.868-.36L11 12.735l7.966 7.96c.24.24.553.36.868.36.316 0 .629-.12.87-.36a1.226 1.226 0 0 0 0-1.738l-7.963-7.96z"
+        fillRule="nonzero"
       />
     </svg>
   );

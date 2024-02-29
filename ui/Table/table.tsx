@@ -9,9 +9,9 @@ import { isNil } from "ramda";
 const TableStyled = styled(Table)``;
 
 function CustomTableStyled<T = any>(props: TTableProps<T>) {
-  const { columns, dataSource, selection = false, selectionMode = "single", isLoading: _isLoading = false, className, ...otherProps } = props;
+  const { columns, dataSource, selection = false, selectionMode = "single", isLoading = false, className, ...otherProps } = props;
 
-  const [isLoading, _] = React.useState(_isLoading);
+  // const [isLoading, _] = React.useState(_isLoading);
 
   const [selectionBehavior, __] = React.useState(selection ? "toggle" : "replace");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
@@ -114,6 +114,8 @@ function CustomTableStyled<T = any>(props: TTableProps<T>) {
             </Button>
           </div>
         </div> */}
+
+        
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">Total {dataSource.length} rows</span>
           <label className="flex items-center text-default-400 text-small">

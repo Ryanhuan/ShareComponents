@@ -1,3 +1,4 @@
+import { TimeRangePickerProps } from "antd";
 export type TTimePickerRangeProps = {
   format?: string;
   label?: string;
@@ -5,4 +6,4 @@ export type TTimePickerRangeProps = {
 
   errorMessage?: string;
   isRequired?: boolean;
-};
+} & TimeRangePickerProps;

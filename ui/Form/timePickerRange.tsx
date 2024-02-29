@@ -1,13 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import { isEmpty } from "ramda";
 import { TimePickerRange, TTimePickerRangeProps } from "../TimePickerRange";
 import { TFromItemProps } from "./form.type";
 import { clsx } from "clsx";
+import { rulesMsg } from "@/lib/utils/form";
 
-type props = { className?: string } & TFromItemProps & TTimePickerRangeProps;
+import { Controller } from "react-hook-form";
+import dayjs from "dayjs";
+import { useTheme } from "next-themes";
 
-const FormTimePickerRangeStyled = styled(TimePickerRange)`
+type props = { className?: string; rules?: any; control: any } & TFromItemProps & TTimePickerRangeProps;
+
+const FormTimePickerRangeContentStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FormTimePickerRangeStyled = styled(TimePickerRange)<{ $currentTheme: string }>`
   padding: 5px;
 
   &.isRequired {
@@ -20,7 +29,7 @@ const FormTimePickerRangeStyled = styled(TimePickerRange)`
 
   // error style
   &:has(.ant-picker-status-error) .pickerBack {
-    background-color: hsl(340 85% 10%) !important;
+    background-color: ${(p) => p.theme[p.$currentTheme].input.errorBg} !important;
   }
 
   &:has(.ant-picker-status-error) label {
@@ -34,25 +43,46 @@ const FormTimePickerRangeStyled = styled(TimePickerRange)`
   }
 `;
 
-const FormTimePickerRange = React.forwardRef<any, props>((props, ref) => {
-  const { name, type, register, errors, isRequired, validationSchema, className, ...otherProps } = props;
+const ErrorMessageStyled = styled.span`
+  color: ${(p) => p.theme.form.errorFont};
+  font-size: 12px;
+  margin: 0 0 0 10px;
+`;
 
+const FormTimePickerRange = React.forwardRef<any, props>((props, ref) => {
+  const { register, type, name, errors, isRequired, validationSchema, className, control, rules, ...otherProps } = props;
+
+  const { theme } = useTheme();
   const _validationSchema = {
-    required: isRequired,
+    required: isRequired ? rulesMsg.isRequired : "",
     ...validationSchema,
   };
 
   return (
-    <FormTimePickerRangeStyled
-      ref={ref as any}
-      type={type}
+    <Controller
+      control={control}
       name={name}
-      className={clsx(isRequired && "isRequired", className)}
-      {...register(name, _validationSchema)}
-      status={!isEmpty(errors) && "error"}
-      errorMessage={errors && errors[name]?.type === "required" && (errors[name]?.message || "欄位為必填")}
-      isRequired={isRequired}
-      {...otherProps}
+      rules={_validationSchema}
+      render={({ field, fieldState }) => {
+        return (
+          <FormTimePickerRangeContentStyled>
+            <FormTimePickerRangeStyled
+              $currentTheme={theme || "dark"}
+              status={fieldState.error ? "error" : undefined}
+              ref={field.ref}
+              name={field.name}
+              onBlur={field.onBlur}
+              value={field.value ? [dayjs(field.value[0]), dayjs(field.value[1])] : null}
+              onChange={(date) => {
+                field.onChange(date ? date.valueOf() : null);
+              }}
+              className={clsx(isRequired && "isRequired", className)}
+              {...otherProps}
+            />
+            {fieldState.error ? <ErrorMessageStyled>{fieldState.error?.message}</ErrorMessageStyled> : null}
+          </FormTimePickerRangeContentStyled>
+        );
+      }}
     />
   );
 });
