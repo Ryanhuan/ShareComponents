@@ -4,12 +4,13 @@ import { TableProps } from "@nextui-org/react";
 export declare type Key = React.Key;
 export declare type DataIndex = string | number | readonly (string | number)[];
 export declare type GetComponentProps<DataType> = (data: DataType, index?: number) => React.HTMLAttributes<any> | React.TdHTMLAttributes<any>;
-
-interface ColumnSharedType<RecordType> {
+/* eslint-disable */
+interface ColumnSharedType<_RecordType> {
   title?: React.ReactNode;
   key?: Key;
   className?: string;
 }
+
 export interface ColumnGroupType<RecordType> extends ColumnSharedType<RecordType> {
   children: ColumnsType<RecordType>;
 }

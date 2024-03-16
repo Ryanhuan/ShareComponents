@@ -37,7 +37,7 @@ interface Props {
 
 export const useConfirm = (props: Props) => {
   const { t } = useTranslation();
-  const { content, onRequestOpen, onOk, onCancel, title = "", okText, icon, ...rest } = props;
+  const { content, onOk, title = "", okText, icon } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const Confirm = () => {

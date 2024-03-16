@@ -49,7 +49,7 @@ const ErrorMessageStyled = styled.span`
   margin: 0 0 0 10px;
 `;
 
-const FormTimePickerRange = React.forwardRef<any, props>((props, ref) => {
+const FormTimePickerRange = React.forwardRef<any, props>((props, _) => {
   const { register, type, name, errors, isRequired, validationSchema, className, control, rules, ...otherProps } = props;
 
   const { theme } = useTheme();
