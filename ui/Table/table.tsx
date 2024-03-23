@@ -9,133 +9,33 @@ import { isNil } from "ramda";
 const TableStyled = styled(Table)``;
 
 function CustomTableStyled<T = any>(props: TTableProps<T>) {
-  const { columns, dataSource, selection = false, selectionMode = "single", isLoading = false, className, ...otherProps } = props;
-
-  // const [isLoading, _] = React.useState(_isLoading);
-
+  const { columns, dataSource, selection = false, selectionMode = "single", isLoading = false, className, onChange, ...otherProps } = props;
+  const { content = [], total = 0, pageSize = 0, totalPages = 1, current = 1 } = dataSource;
   const [selectionBehavior, __] = React.useState(selection ? "toggle" : "replace");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const rowsPerPageNum = [5, 10, 15];
-
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     direction: "ascending",
   });
 
-  const [page, setPage] = React.useState(1);
-
-  const pages = Math.ceil(dataSource.length / rowsPerPage);
-
-  const onRowsPerPageChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRowsPerPage(Number(e.target.value));
-    setPage(1);
-  }, []);
-
-  const _dataSource = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return dataSource.slice(start, end);
-  }, [page, dataSource, rowsPerPage]);
-
   const list = React.useMemo(() => {
-    return [..._dataSource].sort((a: any, b: any) => {
+    return [...content].sort((a: any, b: any) => {
       const first = a[sortDescriptor.column || ""] as number;
       const second = b[sortDescriptor.column || ""] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
-  }, [sortDescriptor, _dataSource]);
+  }, [sortDescriptor, content]);
 
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        {/* <div className="flex justify-between gap-3 items-end">
-          <Input
-            isClearable
-            classNames={{
-              base: "w-full sm:max-w-[44%]",
-              inputWrapper: "border-1",
-            }}
-            placeholder="Search by name..."
-            size="sm"
-            startContent={<SearchIcon className="text-default-300" />}
-            value={filterValue}
-            variant="bordered"
-            onClear={() => setFilterValue("")}
-            onValueChange={onSearchChange}
-          />
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} size="sm" variant="flat">
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} size="sm" variant="flat">
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button className="bg-foreground text-background" endContent={<PlusIcon />} size="sm">
-              Add New
-            </Button>
-          </div>
-        </div> */}
-
-        
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {dataSource.length} rows</span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select className="bg-transparent outline-none text-default-400 text-small" onChange={onRowsPerPageChange} defaultValue={rowsPerPage}>
-              {rowsPerPageNum.map((v) => (
-                <option key={v} value={v}>
-                  {v}
-                </option>
-              ))}
-            </select>
-          </label>
+          <span className="text-default-400 text-small">Total {total} rows</span>
         </div>
       </div>
     );
-  }, [
-    dataSource.length,
-    onRowsPerPageChange,
-    // filterValue, statusFilter, visibleColumns, onSearchChange,  hasSearchFilter
-  ]);
+  }, [dataSource]);
 
   const renderCell = React.useCallback((item: any, columnKey: any) => {
     const keys = columnKey.includes(",") ? columnKey.split(",") : columnKey;
@@ -185,7 +85,17 @@ function CustomTableStyled<T = any>(props: TTableProps<T>) {
       topContent={topContent}
       bottomContent={
         <div className="flex w-full justify-center">
-          <Pagination isCompact showControls showShadow color="primary" page={page} total={pages} onChange={(page) => setPage(page)} />
+          <Pagination
+            isCompact
+            showControls
+            showShadow
+            color="primary"
+            initialPage={current}
+            total={totalPages}
+            onChange={(page) => {
+              onChange({ offset: page });
+            }}
+          />
         </div>
       }
       checkboxesProps={{
@@ -206,10 +116,12 @@ function CustomTableStyled<T = any>(props: TTableProps<T>) {
       </TableHeader>
 
       <TableBody items={list} isLoading={isLoading} loadingContent={<Spinner label="Loading..." />} emptyContent={"No Data"}>
-        {(item: any) => <TableRow key={item.key}>{(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}</TableRow>}
+        {(item: any) => <TableRow key={item._id}>{(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}</TableRow>}
       </TableBody>
     </TableStyled>
   );
 }
 
-export { CustomTableStyled as Table };
+const _Table = React.memo(CustomTableStyled);
+export { _Table as Table };
+// export { CustomTableStyled as Table };

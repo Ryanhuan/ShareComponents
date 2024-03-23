@@ -63,6 +63,15 @@ type TDataSource = {
   key: any;
 };
 
+type TTableDataSource<T> = {
+  content: T[];
+  total: number;
+  page?: number;
+  pageSize?: number;
+  totalPages: number;
+  current?: number;
+};
+
 export interface ColumnProps<RecordType> extends ColumnType<RecordType> {
   children?: null;
 }
@@ -70,8 +79,10 @@ export interface ColumnProps<RecordType> extends ColumnType<RecordType> {
 export type TTableProps<T> = TableProps & {
   columns: TColumns<T>[];
   //   columns: ColumnProps<T>[];
-  dataSource: TDataSource[];
+  dataSource: TTableDataSource<T>;
+  // dataSource: TDataSource[];
   selection?: boolean;
   selectionMode?: "single" | "multiple";
   isLoading?: boolean;
+  onChange?: any;
 };
