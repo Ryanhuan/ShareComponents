@@ -10,7 +10,7 @@ const TableStyled = styled(Table)``;
 
 function CustomTableStyled<T = any>(props: TTableProps<T>) {
   const { columns, dataSource, selection = false, selectionMode = "single", isLoading = false, className, onChange, ...otherProps } = props;
-  const { content = [], total = 0, pageSize = 0, totalPages = 1, current = 1 } = dataSource;
+  const { content = [], total = 0, pageSize = 0, totalPages } = dataSource;
   const [selectionBehavior, __] = React.useState(selection ? "toggle" : "replace");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
@@ -36,6 +36,31 @@ function CustomTableStyled<T = any>(props: TTableProps<T>) {
       </div>
     );
   }, [dataSource]);
+
+  const [page, setPage] = React.useState(1);
+  React.useEffect(() => {
+    totalPages > 0 && setPage(1);
+  }, [totalPages]);
+
+  const bottomContent = React.useMemo(() => {
+    return (
+      <div className="flex w-full justify-center">
+        <Pagination
+          isCompact
+          showControls
+          showShadow
+          color="primary"
+          initialPage={1}
+          page={page}
+          total={totalPages || 1}
+          onChange={(page) => {
+            setPage(page);
+            onChange({ offset: page });
+          }}
+        />
+      </div>
+    );
+  }, [dataSource, totalPages, content]);
 
   const renderCell = React.useCallback((item: any, columnKey: any) => {
     const keys = columnKey.includes(",") ? columnKey.split(",") : columnKey;
@@ -83,21 +108,7 @@ function CustomTableStyled<T = any>(props: TTableProps<T>) {
       selectionMode={selectionMode}
       selectionBehavior={selectionBehavior}
       topContent={topContent}
-      bottomContent={
-        <div className="flex w-full justify-center">
-          <Pagination
-            isCompact
-            showControls
-            showShadow
-            color="primary"
-            initialPage={current}
-            total={totalPages}
-            onChange={(page) => {
-              onChange({ offset: page });
-            }}
-          />
-        </div>
-      }
+      bottomContent={bottomContent}
       checkboxesProps={{
         classNames: {
           wrapper: "after:bg-foreground after:text-background text-background",

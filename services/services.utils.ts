@@ -26,6 +26,7 @@ export function convertData<T>({ field = ["data"], converter = (_: T) => ({}) }:
   let path = field;
 
   const _convertData = (_data: any) => {
+    const { pageSize } = _data;
     const content = mapIndexed(
       (x: T, idx: number) => ({
         ...x,
@@ -34,7 +35,6 @@ export function convertData<T>({ field = ["data"], converter = (_: T) => ({}) }:
       pathOr([], path, _data)
     );
     const total = pathOr(0, ["data", "count"], _data);
-
     const dataSource: DataSource<T> = {
       // content: mapIndexed(
       //   (x: T, idx: number) => ({
@@ -45,8 +45,8 @@ export function convertData<T>({ field = ["data"], converter = (_: T) => ({}) }:
       // ),
       content,
       total,
-      totalPages: Math.ceil(total / content.length) || 1,
-      pageSize: content.length,
+      totalPages: Math.ceil(total / pageSize) || 1,
+      pageSize: pageSize,
       // current: pathOr(0, ["page"], _data) + 1,
       // page: pathOr(0, ["page"], _data) + 1,
     };
