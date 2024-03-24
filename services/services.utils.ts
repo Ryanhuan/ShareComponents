@@ -45,7 +45,7 @@ export function convertData<T>({ field = ["data"], converter = (_: T) => ({}) }:
       // ),
       content,
       total,
-      totalPages: Math.ceil(total / content.length),
+      totalPages: Math.ceil(total / content.length) || 1,
       pageSize: content.length,
       // current: pathOr(0, ["page"], _data) + 1,
       // page: pathOr(0, ["page"], _data) + 1,
