@@ -18,13 +18,10 @@ const CustomSelectStyled = React.forwardRef<any, TSelectProps>((props, ref) => {
       isRequired={isRequired}
       className={className}
       labelPlacement={labelPlacement}
+      items={Options}
       {...otherProps}
     >
-      {Options.map((Option: any) => (
-        <SelectItem key={Option.value} value={Option.value}>
-          {Option.label}
-        </SelectItem>
-      ))}
+      {(option: any) => <SelectItem key={option?.value}>{option?.label}</SelectItem>}
     </SelectStyled>
   );
 });

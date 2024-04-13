@@ -31,11 +31,10 @@ const FormSelect = React.forwardRef<any, props>((props, ref) => {
   return (
     <FormSelectStyled
       ref={ref as any}
-      type={type}
       className={clsx(isRequired && "isRequired", className)}
       {...register(name, _validationSchema)}
       isInvalid={isEmpty(errors[name]) || !isNil(errors[name])}
-      errorMessage={(errors && errors[name]?.type === "required" && (errors[name]?.message || rulesMsg.isRequired)) || ''}
+      errorMessage={(errors && errors[name]?.type === "required" && (errors[name]?.message || rulesMsg.isRequired))}
       {...otherProps}
     />
   );
