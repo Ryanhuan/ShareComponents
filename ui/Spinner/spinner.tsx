@@ -9,7 +9,7 @@ type TSpinnerProps = {
 
 const SpinnerStyled = styled(Spinner)``;
 
-const CustomSpinnerStyled = React.forwardRef<any, TSpinnerProps>((props, ref) => {
+const CustomSpinnerStyled = React.forwardRef<any, TSpinnerProps>((props, _) => {
   const { size = "lg", className, isLoading = false, ...otherProps } = props;
 
   return (
