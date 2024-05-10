@@ -2,11 +2,15 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Topbar from "../Topbar";
 
-export default function Layout() {
+type Props = {
+  projectName: string;
+};
+
+export default function Layout({ projectName }: Props) {
   return (
     <LayoutStyled>
       <header>
-        <Topbar />
+        <Topbar projectName={projectName} />
       </header>
       <main>
         <Outlet />

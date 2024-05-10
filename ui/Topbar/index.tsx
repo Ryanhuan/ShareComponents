@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 
-export default function Topbar() {
+type Props = {
+  projectName: string;
+};
+
+export default function Topbar({ projectName }: Props) {
   return (
     <>
       <TopbarStyled className={clsx("")}>
@@ -11,7 +15,7 @@ export default function Topbar() {
           <div className={"topLeft"}>
             <Link to="/" className={"Link"}>
               <div className={"logo"}>
-                <span className={"logoTitle"}>Bot Game CMS</span>
+                <span className={"logoTitle"}>{projectName}</span>
               </div>
             </Link>
           </div>
