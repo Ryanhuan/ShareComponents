@@ -2,20 +2,38 @@ import { clsx } from "clsx";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ThemeSwitcher } from "../ThemeSwitcher";
+import { Button } from "@share/ui/Button";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { logout } from "@/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Topbar() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   return (
     <>
       <TopbarStyled className={clsx("")}>
-        <div className={"wrapper"}>
-          <div className={"topLeft"}>
-            <Link to="/" className={"Link"}>
-              <div className={"logo"}>
-                <span className={"logoTitle"}>Bot Game CMS</span>
-              </div>
-            </Link>
+        <div className="wrapper">
+          <div className="topLeft"></div>
+
+          <div className="center">
+            <LogoStyled>
+              <Link to="/" className="Link">
+                <span className="logoTitle text-[#222] dark:text-[#ccc]">Bot Game CMS</span>
+              </Link>
+            </LogoStyled>
           </div>
-          <div className={"topright"}>
+
+          <div className="topright">
+            <Button className="mr-2 mt-2 min-w-unit-0" size="sm" onClick={handleLogout}>
+              Logout
+            </Button>
             <ThemeSwitcher />
           </div>
         </div>
@@ -24,9 +42,25 @@ export default function Topbar() {
   );
 }
 
+const LogoStyled = styled.div`
+  margin: 10px;
+  .Link {
+    text-decoration: none;
+    color: inherit;
+  }
+  .logoTitle {
+    font-family: "Outfit", sans-serif;
+
+    font-size: 40px;
+    margin-left: 10px;
+    font-weight: 500;
+    text-spacing: 1.5px;
+  }
+`;
+
 const TopbarStyled = styled.div`
   width: 100%;
-  height: 40px;
+  height: 100px;
   background-color: white;
   position: fixed;
   top: 0;
@@ -40,18 +74,6 @@ const TopbarStyled = styled.div`
     justify-content: space-between;
 
     .topLeft {
-      .Link {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      .logoTitle {
-        font-size: 20px;
-        margin-left: 10px;
-        font-weight: 500;
-        text-spacing: 1.5px;
-        color: #77969a;
-      }
     }
 
     .topRight {
