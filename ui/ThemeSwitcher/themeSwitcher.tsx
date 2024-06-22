@@ -9,20 +9,24 @@ export function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   console.log("theme", theme);
 
-  if (!mounted) return null;
+  //   const _theme = theme === "light";
+  //   console.log("_theme", _theme);
+
+  //   setMounted(_theme);
+  // }, [theme]);
 
   return (
     <Switch
       size="lg"
       color="primary"
+      defaultSelected
       onValueChange={(isSelected) => {
-        isSelected ? setTheme("light") : setTheme("dark");
+        isSelected ? setTheme("dark") : setTheme("light");
       }}
-      thumbIcon={({ isSelected, className }) => (isSelected ? <IconSun className={className} /> : <IconMoon className={className} />)}
+      thumbIcon={({ isSelected, className }) => (isSelected ? <IconMoon className={className} /> : <IconSun className={className} />)}
     ></Switch>
   );
 }

@@ -5,6 +5,7 @@ import FormCheckbox from "./checkbox";
 import FormCheckboxGroup from "./checkboxGroup";
 import FormSwitch from "./switch";
 import FormTextarea from "./textarea";
+import FormTimePicker from "./timePicker";
 
 type IFormItem = {
   Input: typeof FormInput;
@@ -14,6 +15,7 @@ type IFormItem = {
   CheckboxGroup: typeof FormCheckboxGroup;
   Switch: typeof FormSwitch;
   Textarea: typeof FormTextarea;
+  TimePicker: typeof FormTimePicker;
 };
 
 const FormItem: IFormItem = {
@@ -24,6 +26,7 @@ const FormItem: IFormItem = {
   CheckboxGroup: FormCheckboxGroup,
   Switch: FormSwitch,
   Textarea: FormTextarea,
+  TimePicker: FormTimePicker,
 };
 
 export { FormItem };
