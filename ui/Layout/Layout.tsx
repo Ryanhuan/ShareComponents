@@ -33,7 +33,7 @@ const LayoutStyled = styled.div`
 
   header {
     grid-area: head;
-    margin-bottom: 40px;
+    margin-bottom: 100px;
   }
 
   nav {
