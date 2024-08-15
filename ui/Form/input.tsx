@@ -30,6 +30,7 @@ const FormInput = React.forwardRef<any, props>((props, ref) => {
   const _validationSchema = {
     ...validationSchema,
     required: isRequired,
+    valueAsNumber: type === "number",
   };
 
   return (
