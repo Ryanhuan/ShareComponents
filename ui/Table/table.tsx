@@ -105,7 +105,7 @@ function CustomTableStyled<T = any>(props: TTableProps<T>) {
         _classNames,
         className
       )}
-      selectionMode={selectionMode}
+      // selectionMode={selectionMode}
       selectionBehavior={selectionBehavior}
       topContent={topContent}
       bottomContent={bottomContent}
