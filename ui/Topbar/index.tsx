@@ -61,12 +61,8 @@ const LogoStyled = styled.div`
 `;
 
 const TopbarStyled = styled.div`
-  width: 100%;
-  height: 100px;
-  background-color: white;
-  position: fixed;
-  top: 0;
-  z-index: 999;
+  width: 99dvw;
+  margin: 20px;
   background-color: transparent;
 
   .wrapper {
