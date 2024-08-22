@@ -85,4 +85,5 @@ export type TTableProps<T> = TableProps & {
   selectionMode?: "single" | "multiple";
   isLoading?: boolean;
   onChange?: any;
+  onSort?: any;
 };

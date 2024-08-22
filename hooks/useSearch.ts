@@ -80,7 +80,7 @@ export default function useSearch({
     });
   };
 
-  const handleTableChange= ({ offset }:any) => {
+  const handleTableChange = ({ offset }: any) => {
     if (!!offset) {
       setOffset(offset);
       setQuery((prev: any) => {
@@ -94,6 +94,19 @@ export default function useSearch({
     }
   };
 
+  const handleSortChange = (props: any) => {
+    setQuery((prev: any) => {
+      const q = {
+        ...prev,
+        sort: {
+          key: props?.column,
+          order: props?.direction,
+        },
+      };
+      return q;
+    });
+  };
+
   return {
     query,
     offset,
@@ -102,5 +115,6 @@ export default function useSearch({
     handleChange,
     handleSearch,
     handleTableChange,
+    handleSortChange,
   };
 }

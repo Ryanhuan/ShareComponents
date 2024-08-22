@@ -93,11 +93,18 @@ function CustomTableStyled<T = any>(props: TTableProps<T>) {
     []
   );
 
+  const handleSortChange = (v: any) => {
+    setSortDescriptor(v);
+    props?.onSort(v);
+  };
+
   return (
     <TableStyled
       aria-label="table"
       sortDescriptor={sortDescriptor}
-      onSortChange={setSortDescriptor}
+      onSortChange={(v: any) => {
+        handleSortChange(v);
+      }}
       classNames={clsx(
         {
           table: "min-h-[400px]",
